@@ -14,8 +14,9 @@
 + (void)showUpdateMessageForPackage:(ATZPackage *)package
 {
 	NSUserNotification *notification = [NSUserNotification new];
-	notification.title = package.name;
-	notification.subtitle = @"Successfully updated";
+    notification.title = @"Alcatraz";
+    notification.subtitle = [NSString stringWithFormat:@"%@ plugin updated", package.name];
+    notification.informativeText = @"To apply changes, please restart Xcode";
 	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 }
 
