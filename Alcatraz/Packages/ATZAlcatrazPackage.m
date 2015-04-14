@@ -23,6 +23,7 @@
 
 #import "ATZAlcatrazPackage.h"
 #import "ATZPluginInstaller.h"
+#import "ATZUserNotifications.h"
 
 @implementation ATZAlcatrazPackage
 
@@ -37,10 +38,14 @@
         @"description": @"Self updating installer",
         @"branch": @"deploy"
     }];
-    
-    [alcatraz updateWithProgress:^(NSString *proggressMessage, CGFloat progress){} completion:^(NSError *failure) {
-        if (failure)
+
+    [alcatraz updateWithProgress:^(NSString *proggressMessage, CGFloat progress){} completion:^(NSError *failure, BOOL updated) {
+		if (failure) {
             NSLog(@"Alcatraz update failed! %@", failure);
+		}
+		if (updated) {
+			[ATZUserNotifications showUpdateMessageForPackage:alcatraz];
+		}
     }];
 }
 

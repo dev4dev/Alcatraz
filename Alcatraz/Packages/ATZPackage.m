@@ -68,10 +68,11 @@
 #pragma mark - Property getters
 
 - (NSString *)website {
-    if ([self.remotePath rangeOfString:@"raw.github"].location != NSNotFound)
+    if ([self.remotePath rangeOfString:@"raw.github"].location != NSNotFound) {
         return [self projectPathFromGithubRawPath:self.remotePath];
-    
-    else return self.remotePath;
+    } else {
+        return self.remotePath;
+    }
 }
 
 
@@ -89,7 +90,7 @@
     [[self installer] installPackage:self progress:progress completion:completion];
 }
 
-- (void)updateWithProgress:(void (^)(NSString *, CGFloat))progress completion:(void (^)(NSError *))completion {
+- (void)updateWithProgress:(void (^)(NSString *, CGFloat))progress completion:(void (^)(NSError *, BOOL))completion {
     [[self installer] updatePackage:self progress:progress completion:completion];
 }
 

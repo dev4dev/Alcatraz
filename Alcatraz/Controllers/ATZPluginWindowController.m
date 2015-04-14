@@ -27,6 +27,7 @@
 #import "Alcatraz.h"
 #import "ATZPackageFactory.h"
 #import "ATZVersion.h"
+#import "ATZUserNotifications.h"
 
 #import "ATZPlugin.h"
 #import "ATZColorScheme.h"
@@ -197,8 +198,12 @@ typedef NS_ENUM(NSInteger, ATZFilterSegment) {
     if (!package.isInstalled) return;
 
     NSOperation *updateOperation = [NSBlockOperation blockOperationWithBlock:^{
-        [package updateWithProgress:^(NSString *proggressMessage, CGFloat progress){}
-                                completion:^(NSError *failure){}];
+		[package updateWithProgress:^(NSString *proggressMessage, CGFloat progress){}
+						 completion:^(NSError *failure, BOOL updated){
+							 if (updated) {
+								 [ATZUserNotifications showUpdateMessageForPackage:package];
+							 }
+		}];
     }];
     [updateOperation addDependency:[[NSOperationQueue mainQueue] operations].lastObject];
     [[NSOperationQueue mainQueue] addOperation:updateOperation];
